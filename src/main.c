@@ -5,5 +5,6 @@
 int main()
 {
 	printf("%d\n", adler_32("Adler-32", 8));
+
 	return 0;
 }

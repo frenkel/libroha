@@ -10,5 +10,9 @@
 *.so
 *.so.*
 
+# Core dumps
+*.core
+
 # Executables
 rolling-hashes
+check-*
