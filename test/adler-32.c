@@ -5,13 +5,13 @@ void test_single_char()
 {
 	adler_32_state state;
 	adler_32_init(&state);
-	assert(adler_32(&state, 'a') == 6422626);
+	assert(adler_32(&state, (uint8_t) 'a') == 6422626);
 }
 
 void test_simple_word()
 {
 	adler_32_state state;
-	uint8_t *input = "Adler-32";
+	uint8_t *input = (uint8_t *) "Adler-32";
 	int i = 0;
 
 	adler_32_init(&state);
@@ -25,7 +25,8 @@ void test_simple_word()
 void test_modulo()
 {
 	adler_32_state state;
-	uint8_t *input = "pretty long Adler-32 modulo testing string";
+	uint8_t *input = (uint8_t *)
+		 "pretty long Adler-32 modulo testing string";
 	int i = 0;
 
 	adler_32_init(&state);
