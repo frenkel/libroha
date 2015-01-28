@@ -1,16 +1,24 @@
 #include <stdint.h>
 
+#include "adler-32.h"
+
 #define ADLER_CONSTANT 65521
 
-uint32_t adler_32(uint8_t *data, int len)
+void adler_32_init(adler_32_state *state)
 {
-	int a = 1;
-	int b = 0;
+	state->a = 1;
+	state->b = 0;
+	state->checksum = 0;
+	state->last = 0;
+}
 
-	while(len--) {
-		a = (a + *(data++)) % ADLER_CONSTANT;
-		b = (b + a) % ADLER_CONSTANT;
-	}
+uint32_t adler_32(adler_32_state *state, uint8_t data)
+{
+	state->a = (state->a + data) % ADLER_CONSTANT;
+	state->b = (state->b + state->a) % ADLER_CONSTANT;
 
-	return (b << 16) | a;
+	state->checksum = (state->b << 16) | state->a;
+	state->last = data;
+
+	return state->checksum;
 }
