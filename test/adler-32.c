@@ -13,13 +13,14 @@ void test_simple_word()
 	adler_32_state state;
 	uint8_t *input = (uint8_t *) "Adler-32";
 	int i = 0;
+	uint32_t checksum = 0;
 
 	adler_32_init(&state);
 
 	for (i = 0; i < 8; i++)
-		adler_32(&state, input[i]);
+		checksum = adler_32(&state, input[i]);
 
-	assert(state.checksum == 0x0c34027b);
+	assert(checksum == 0x0c34027b);
 }
 
 void test_modulo()
@@ -28,13 +29,14 @@ void test_modulo()
 	uint8_t *input = (uint8_t *)
 		 "pretty long Adler-32 modulo testing string";
 	int i = 0;
+	uint32_t checksum = 0;
 
 	adler_32_init(&state);
 
 	for (i = 0; i < 42; i++)
-		adler_32(&state, input[i]);
+		checksum = adler_32(&state, input[i]);
 
-	assert(state.checksum == 0x4bc00f98);
+	assert(checksum == 0x4bc00f98);
 }
 
 int main()
