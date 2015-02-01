@@ -1,6 +1,12 @@
-PHONY:
-	${CC} -Wall -shared -o libroha.so src/*.c
+PHONY: lib
 
-check:
-	${CC} -Wall -L. -lroha -o check-adler-32 test/adler-32.c
-	LD_LIBRARY_PATH=`pwd` ./check-adler-32
+lib:
+	${CC} -Wall -fPIC -shared -Wl,-soname,libroha.so.1 -o libroha.so.1.0 src/*.c
+
+test: lib
+	${CC} -Wall -L. -lroha -Wl,-rpath,`pwd` -o check-adler-32 test/adler-32.c
+	./check-adler-32
+
+clean:
+	rm libroha.so.*
+	rm check-*
