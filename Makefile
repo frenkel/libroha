@@ -1,6 +1,6 @@
 PHONY:
-	cc -Wall -o rolling-hashes src/*.c
+	${CC} -Wall -shared -o libroha.so src/*.c
 
 check:
-	cc -Wall -o check-adler-32 src/adler-32.c test/adler-32.c
-	./check-adler-32
+	${CC} -Wall -L. -lroha -o check-adler-32 test/adler-32.c
+	LD_LIBRARY_PATH=`pwd` ./check-adler-32
