@@ -6,8 +6,6 @@
 typedef struct {
 	uint32_t a;
 	uint32_t b;
-	uint32_t checksum;
-	uint8_t last;
 } adler_32_state;
 
 void adler_32_init(adler_32_state *);
