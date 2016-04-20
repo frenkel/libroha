@@ -19,8 +19,10 @@ install: lib
 	install -m 0644 libroha.so ${PREFIX}/lib/libroha.so
 	install -m 0644 libroha.so.1 ${PREFIX}/lib/libroha.so.1
 	install -m 0644 libroha.so.1.0 ${PREFIX}/lib/libroha.so.1.0
+	install -m 0644 src/adler-32.h ${PREFIX}/include/adler-32.h
 
 uninstall:
 	rm -rf ${PREFIX}/lib/libroha.so \
 		${PREFIX}/lib/libroha.so.1 \
-		${PREFIX}/lib/libroha.so.1.0
+		${PREFIX}/lib/libroha.so.1.0 \
+		${PREFIX}/include/adler-32.h
