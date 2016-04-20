@@ -10,6 +10,7 @@ void adler_32_init(adler_32_state *state, uint32_t blocksize)
 	state->a = 1;
 	state->b = 0;
 	state->blocksize = blocksize;
+	state->filled_buffer = 0;
 	state->buffer = malloc(blocksize);
 	memset(state->buffer, 0, blocksize);
 }
@@ -25,10 +26,13 @@ static uint8_t unshift_append(adler_32_state *state, uint8_t appended)
 	uint8_t unshifted = state->buffer[0];
 	int i;
 
-	for(i = 0; i < state->blocksize - 1; i++)
+	for (i = 0; i < state->blocksize - 1; i++)
 		state->buffer[i] = state->buffer[i + 1];
 
-	state->buffer[state->blocksize] = appended;
+	state->buffer[state->blocksize - 1] = appended;
+
+	if (state->filled_buffer <= state->blocksize)
+		state->filled_buffer++;
 
 	return unshifted;
 }
@@ -36,6 +40,12 @@ static uint8_t unshift_append(adler_32_state *state, uint8_t appended)
 uint32_t adler_32(adler_32_state *state, uint8_t data)
 {
 	uint8_t prev = unshift_append(state, data);
+
+	/* bigger because unshift_append reaches it too early */
+	if (state->filled_buffer > state->blocksize) {
+		state->a -= prev;
+		state->b -= prev * state->blocksize + 1;
+	}
 
 	state->a += data;
 

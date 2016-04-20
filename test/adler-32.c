@@ -30,14 +30,32 @@ void test_simple_word()
 void test_modulo()
 {
 	adler_32_state state;
-	uint8_t *input = (uint8_t *)
-		 "pretty long Adler-32 modulo testing string";
+	uint8_t *input = (uint8_t *) "pretty long Adler-32 modulo testing "
+		"string";
 	int i = 0;
 	uint32_t checksum = 0;
 
 	adler_32_init(&state, 42);
 
 	for (i = 0; i < 42; i++)
+		checksum = adler_32(&state, input[i]);
+
+	assert(checksum == 0x4bc00f98);
+
+	adler_32_deinit(&state);
+}
+
+void test_rolling()
+{
+	adler_32_state state;
+	uint8_t *input = (uint8_t *) "###pretty long Adler-32 modulo "
+		"testing string";
+	int i = 0;
+	uint32_t checksum = 0;
+
+	adler_32_init(&state, 42);
+
+	for (i = 0; i < 45; i++)
 		checksum = adler_32(&state, input[i]);
 
 	assert(checksum == 0x4bc00f98);
@@ -52,6 +70,8 @@ int main()
 	test_simple_word();
 
 	test_modulo();
+
+	test_rolling();
 
 	return 0;
 }

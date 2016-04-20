@@ -8,6 +8,7 @@ typedef struct {
 	uint32_t a;
 	uint32_t b;
 	uint32_t blocksize;
+	uint32_t filled_buffer;
 	uint8_t *buffer;
 } adler_32_state;
 
