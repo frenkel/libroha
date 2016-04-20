@@ -1,5 +1,7 @@
 PHONY: lib
 
+PREFIX ?= /usr/local
+
 lib:
 	${CC} -Wall -fPIC -shared -Wl,-soname,libroha.so.1 -o libroha.so.1.0 src/*.c
 	ln -sf libroha.so.1.0 libroha.so
@@ -12,3 +14,13 @@ test: lib
 clean:
 	rm libroha.so*
 	rm test-*
+
+install: lib
+	install -m 0644 libroha.so ${PREFIX}/lib/libroha.so
+	install -m 0644 libroha.so.1 ${PREFIX}/lib/libroha.so.1
+	install -m 0644 libroha.so.1.0 ${PREFIX}/lib/libroha.so.1.0
+
+uninstall:
+	rm -rf ${PREFIX}/lib/libroha.so \
+		${PREFIX}/lib/libroha.so.1 \
+		${PREFIX}/lib/libroha.so.1.0
