@@ -6,8 +6,8 @@ lib:
 	ln -sf libroha.so.1.0 libroha.so.1
 
 test: lib
-	${CC} -Wall -Wl,-rpath,. -L. -o check-adler-32 test/adler-32.c -lroha
-	./check-adler-32
+	${CC} -Wall -Wl,-rpath,. -L. -o test-adler-32 test/adler-32.c -lroha
+	./test-adler-32
 
 clean:
 	rm libroha.so*
