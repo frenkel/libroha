@@ -11,4 +11,4 @@ test: lib
 
 clean:
 	rm libroha.so*
-	rm check-*
+	rm test-*
