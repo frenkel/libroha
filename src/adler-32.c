@@ -20,8 +20,23 @@ void adler_32_deinit(adler_32_state *state)
 		free(state->buffer);
 }
 
+static uint8_t unshift_append(adler_32_state *state, uint8_t appended)
+{
+	uint8_t unshifted = state->buffer[0];
+	int i;
+
+	for(i = 0; i < state->blocksize - 1; i++)
+		state->buffer[i] = state->buffer[i + 1];
+
+	state->buffer[state->blocksize] = appended;
+
+	return unshifted;
+}
+
 uint32_t adler_32(adler_32_state *state, uint8_t data)
 {
+	uint8_t prev = unshift_append(state, data);
+
 	state->a += data;
 
 	if (state->a > ADLER_CONSTANT)
